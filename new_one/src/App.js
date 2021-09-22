@@ -1,31 +1,24 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
-/*
-Challenge:
-
-Given a stateless functional component:
-1. Follow the steps necessary to add state to it,
-2. Have state keep track of whether the user is logged in or not
-3. Add a button that logs the user in/out
-    a. extra challenge - make the button display "log in" if they're not logged in and "log out" if they are
-4. Display text that says "Logged in" if the user is logged in, or "Logged out" if they're not.
-*/
-
-function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
-
-  function buttonClickHandler() {
-    setLoggedIn(!loggedIn);
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      topText: '',
+      bottomText: '',
+      randomImage: '',
+    };
   }
 
-  return (
-    <div>
-      <h1>logged {loggedIn ? 'in' : 'out'} </h1>
-      <button onClick={buttonClickHandler}>
-        Log {loggedIn ? 'out' : 'in'}
-      </button>
-    </div>
-  );
+  async componentDidMount() {
+    const RESPONSE = await fetch('http://i.imgflip.com/1bij.jpg');
+    const JSON = await RESPONSE.json();
+    console.log(JSON);
+  }
+
+  render() {
+    return <h1>{this.state.randomImage}</h1>;
+  }
 }
 
 export default App;
