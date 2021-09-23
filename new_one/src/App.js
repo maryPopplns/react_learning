@@ -1,11 +1,52 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Overview from './components/Overview.js';
 
-class App extends Component {}
+export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      inputTask: '',
+      tasks: [],
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
-/**
- * Create a method that, when the "Gen" button is clicked, chooses one of the
- * memes from our `allMemeImgs` array at random and makes it so that is the
- * meme image that shows up in the bottom portion of our meme generator site
- */
+  onChange(event) {
+    const { value, name } = event.target;
+    this.setState({ [name]: value });
+  }
 
-export default App;
+  onSubmit(event) {
+    event.preventDefault();
+    if (this.state.inputTask === '') {
+      return;
+    }
+    this.setState((prevState) => {
+      const { inputTask, tasks } = prevState;
+      return {
+        inputTask: '',
+        tasks: [...tasks, inputTask],
+      };
+    });
+    console.log(this.state.tasks);
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input
+          name='inputTask'
+          onChange={this.onChange}
+          type='text'
+          value={this.state.inputTask}
+        ></input>
+        <button>submit</button>
+        <br />
+        <br />
+        <div>{this.state.inputTask}</div>
+        <Overview data={this.state.tasks} />
+      </form>
+    );
+  }
+}
